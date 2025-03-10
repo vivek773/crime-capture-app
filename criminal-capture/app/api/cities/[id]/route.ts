@@ -46,38 +46,33 @@ export async function PATCH(req: NextRequest) {
 
 // Delete City by ID
 export async function DELETE(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-
-    if (!id) {
+    try {
+      const url = new URL(req.url);
+      const id = url.pathname.split("/").pop();
+  
+      if (!id || isNaN(Number(id))) {
+        return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+      }
+  
+      const cityId = parseInt(id, 10);
+  
+      // Check if city exists
+      const existingCity = await prisma.city.findUnique({
+        where: { id: cityId },
+      });
+  
+      if (!existingCity) {
+        return NextResponse.json({ error: "City not found" }, { status: 404 });
+      }
+  
+      // Delete city
+      await prisma.city.delete({ where: { id: cityId } });
+  
+      return NextResponse.json({ message: "City deleted successfully" });
+    } catch (error: any) {
       return NextResponse.json(
-        { error: "City ID is required" },
-        { status: 400 }
+        { error: "Failed to delete city", details: error.message },
+        { status: 500 }
       );
     }
-
-    const cityId = parseInt(id, 10);
-    if (isNaN(cityId)) {
-      return NextResponse.json({ error: "Invalid City ID" }, { status: 400 });
-    }
-
-    // Checking if city exists
-    const existingCity = await prisma.city.findUnique({
-      where: { id: cityId },
-    });
-    if (!existingCity) {
-      return NextResponse.json({ error: "City not found" }, { status: 404 });
-    }
-
-    // Delete the city
-    await prisma.city.delete({ where: { id: cityId } });
-
-    return NextResponse.json({ message: "City deleted successfully" });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: "Failed to delete city", details: error.message },
-      { status: 500 }
-    );
   }
-}
