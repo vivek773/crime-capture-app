@@ -1,8 +1,6 @@
-// Vehicle Card
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
-
+import { getVehicles } from "@/services/vehicleService";
 import { Vehicle } from "@/types";
 
 export default function VehicleSelector({
@@ -20,11 +18,11 @@ export default function VehicleSelector({
     const fetchVehicles = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(process.env.BASE_URL || "https://your-app.vercel.app/api");
-        setVehicles(response?.data);
+        const data = await getVehicles();
+        setVehicles(data);
         setError(null);
       } catch (err) {
-        console.log(err);
+        console.error(err);
         setError("Failed to load vehicles. Please try again.");
       } finally {
         setLoading(false);
@@ -46,17 +44,17 @@ export default function VehicleSelector({
         <select
           value={selectedVehicle}
           onChange={(e) => {
-            const selectedOption = vehicles?.find((vehicle) => vehicle?.type === e?.target?.value);
+            const selectedOption = vehicles.find((vehicle) => vehicle.type === e.target.value);
             if (selectedOption) {
-              onSelect(selectedOption?.type, selectedOption?.id);
+              onSelect(selectedOption.type, selectedOption.id);
             }
           }}
           className="w-full p-3 border text-black border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         >
           <option value="">Choose a vehicle</option>
-          {vehicles?.map((vehicle) => (
-            <option key={vehicle?.id} value={vehicle?.type}>
-              {vehicle?.type} (Range: {vehicle.range} KM)
+          {vehicles.map((vehicle) => (
+            <option key={vehicle.id} value={vehicle.type}>
+              {vehicle.type} (Range: {vehicle.range} KM)
             </option>
           ))}
         </select>

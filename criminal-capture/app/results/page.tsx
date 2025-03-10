@@ -27,8 +27,8 @@ export default function ResultPage() {
   const resultMessage = useMemo(() => {
     if (!resultData) return null;
     return resultData.capturedBy
-      ? `The fugitive was captured by ${resultData.capturedBy} in city ${resultData.city}`
-      : "The fugitive escaped!";
+      ? `Fugitive was captured by ${resultData.capturedBy}`
+      : "Fugitive escaped!";
   }, [resultData]);
 
   return (
