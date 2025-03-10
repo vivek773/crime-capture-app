@@ -1,13 +1,9 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "/api/:path*",
-      },
-    ];
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  env: {
+    BASE_URL: process.env.BASE_URL, // Ensure Vercel picks up the env variable
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
