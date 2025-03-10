@@ -21,10 +21,18 @@ export default function SelectionPage() {
       const data = await getCops();
       setCops(data);
 
-      const initialSelections: SelectionState = data.reduce((acc: any, cop: any) => {
-        acc[cop.name] = { city: "", cityId: null, vehicle: "", vehicleId: null };
-        return acc;
-      }, {} as SelectionState);
+      const initialSelections: SelectionState = data.reduce(
+        (acc: any, cop: any) => {
+          acc[cop.name] = {
+            city: "",
+            cityId: null,
+            vehicle: "",
+            vehicleId: null,
+          };
+          return acc;
+        },
+        {} as SelectionState
+      );
 
       setSelections(initialSelections);
     } catch (error) {
@@ -40,7 +48,7 @@ export default function SelectionPage() {
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
-  
+
     try {
       const formattedPayload = {
         cops: Object.entries(selections).map(([key, value]) => ({
@@ -56,7 +64,7 @@ export default function SelectionPage() {
         })),
       };
       await submitSelections(formattedPayload, resultsPayload);
-  
+
       router.push("/results");
     } catch (error: any) {
       console.log(error);
@@ -65,7 +73,6 @@ export default function SelectionPage() {
       setLoading(false);
     }
   };
-  
 
   const copSelectionUI = useMemo(
     () =>
@@ -114,7 +121,9 @@ export default function SelectionPage() {
           Select City & Vehicle
         </h1>
 
-        {copSelectionUI}
+        <div className="max-h-[calc(100vh-300px)] overflow-y-auto p-2">
+          {copSelectionUI}
+        </div>
 
         {error && <p className="text-red-500 text-center mt-2">{error}</p>}
 
