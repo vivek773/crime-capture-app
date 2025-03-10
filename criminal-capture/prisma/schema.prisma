@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model City {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  distance Int
+  Cop      Cop[]
+}
+
+model Vehicle {
+  id    Int    @id @default(autoincrement())
+  type  String
+  range Int
+  count Int
+  Cop   Cop[]
+}
+
+model Cop {
+  id        Int    @id @default(autoincrement())
+  name      String
+  cityId    Int?   // Make it optional
+  vehicleId Int?   // Make it optional
+
+  city      City?   @relation(fields: [cityId], references: [id])
+  vehicle   Vehicle? @relation(fields: [vehicleId], references: [id])
+}
+
+model Selection {
+  id         String   @id @default(uuid()) // Unique ID (UUID)
+  name       String   // Cop's name
+  city_id    Int      // City ID
+  vehicle_id Int      // Vehicle ID
+  createdAt  DateTime @default(now()) // Auto timestamp
+}
+
+model Result {
+  id          String   @id @default(uuid())
+  message     String
+  capturedBy  String?
+  city        Int
+  createdAt   DateTime @default(now())
+}
+
+
