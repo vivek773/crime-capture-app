@@ -1,6 +1,6 @@
 // Cities Card
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState} from "react";
 import Modal from "react-modal";
 import { Pencil, Trash, Plus, X } from "lucide-react";
 
@@ -14,17 +14,18 @@ export default function CitiesCard() {
   const [formData, setFormData] = useState({ name: "", distance: "" });
 
   useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const data = await getCities();
+        setCities(data);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
+  
     fetchCities();
   }, []);
-
-  const fetchCities = useCallback(async () => {
-    try {
-      const data = await getCities();
-      setCities(data);
-    } catch (error) {
-      console.error("Error fetching cities:", error);
-    }
-  }, []);
+  
 
   const openModal = (type: "add" | "edit" | "delete", city?: City) => {
     setSelectedCity(city || null);
