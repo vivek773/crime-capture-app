@@ -20,7 +20,7 @@ export default function VehicleSelector({
     const fetchVehicles = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(process.env.BASE_URL || "http://localhost:3000/api");
+        const response = await axios.get(process.env.BASE_URL || "https://your-app.vercel.app/api");
         setVehicles(response?.data);
         setError(null);
       } catch (err) {
