@@ -2,9 +2,15 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 // Update Cop by ID
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request) {
   try {
-    const copId = parseInt(params.id, 10);
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop();
+    if (!id || isNaN(Number(id))) {
+      return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+    }
+
+    const copId = parseInt(id, 10);
     const { name } = await req.json();
 
     // Check if cop exists
@@ -22,14 +28,23 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
     return NextResponse.json(updatedCop);
   } catch (error: any) {
-    return NextResponse.json({ error: "Failed to update cop", details: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update cop", details: error.message },
+      { status: 500 }
+    );
   }
 }
 
 // Delete Cop by ID
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request) {
   try {
-    const copId = parseInt(params.id, 10);
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop();
+    if (!id || isNaN(Number(id))) {
+      return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+    }
+
+    const copId = parseInt(id, 10);
 
     // Check if cop exists
     const existingCop = await prisma.cop.findUnique({ where: { id: copId } });
@@ -42,6 +57,9 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
     return NextResponse.json({ message: "Cop deleted successfully" });
   } catch (error: any) {
-    return NextResponse.json({ error: "Failed to delete cop", details: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete cop", details: error.message },
+      { status: 500 }
+    );
   }
 }

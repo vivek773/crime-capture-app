@@ -1,10 +1,21 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 // Update City by ID
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest) {
   try {
-    const cityId = parseInt(params.id, 10);
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop(); // Extract `id` from the URL
+
+    if (!id) {
+      return NextResponse.json({ error: "City ID is required" }, { status: 400 });
+    }
+
+    const cityId = parseInt(id, 10);
+    if (isNaN(cityId)) {
+      return NextResponse.json({ error: "Invalid City ID" }, { status: 400 });
+    }
+
     const { name, distance } = await req.json();
 
     // Checking if city exists
@@ -26,9 +37,19 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 // Delete City by ID
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest) {
   try {
-    const cityId = parseInt(params.id, 10);
+    const url = new URL(req.url);
+    const id = url.pathname.split("/").pop(); // Extract `id` from the URL
+
+    if (!id) {
+      return NextResponse.json({ error: "City ID is required" }, { status: 400 });
+    }
+
+    const cityId = parseInt(id, 10);
+    if (isNaN(cityId)) {
+      return NextResponse.json({ error: "Invalid City ID" }, { status: 400 });
+    }
 
     // Checking if city exists
     const existingCity = await prisma.city.findUnique({ where: { id: cityId } });

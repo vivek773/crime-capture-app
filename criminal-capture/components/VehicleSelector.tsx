@@ -20,7 +20,7 @@ export default function VehicleSelector({
     const fetchVehicles = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:3000/api/vehicles");
+        const response = await axios.get(process.env.BASE_URL || "http://localhost:3000/api");
         setVehicles(response?.data);
         setError(null);
       } catch (err) {
