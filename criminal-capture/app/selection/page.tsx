@@ -79,7 +79,7 @@ export default function SelectionPage() {
       cops.map((cop) => (
         <div key={cop.id} className="mb-6 p-4 bg-gray-50 shadow-md rounded-lg">
           <h2 className="text-xl font-semibold text-gray-700 mb-2">
-            {cop.name}
+            {cop.name} (COP)
           </h2>
 
           <CitySelector
