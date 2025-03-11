@@ -10,7 +10,15 @@ const Settings = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-700 text-white px-4 relative">
+    <div
+      className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-700 text-white px-4 relative"
+      style={{
+        backgroundImage: "url('/cover-background.webp')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {/* Back Button */}
       <button
         onClick={() => router.back()}

@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 import { fetchResult } from "@/services/selectionService";
 
 export default function ResultPage() {
-  const [resultData, setResultData] = useState<{ capturedBy?: string; city?: string } | null>(null);
+  const [resultData, setResultData] = useState<{
+    capturedBy?: string;
+    city?: string;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,14 +35,24 @@ export default function ResultPage() {
   }, [resultData]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-700 text-white relative">
+    <div
+      className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-700 text-white relative"
+      style={{
+        backgroundImage: "url('/police-criminal.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="bg-white shadow-xl rounded-lg p-6 text-center max-w-lg w-full"
       >
-        <h1 className="text-4xl font-extrabold text-gray-800 mb-4">Capture Result</h1>
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
+          Capture Result
+        </h1>
 
         {loading ? (
           <p className="text-xl font-medium text-gray-700">Processing...</p>
@@ -57,7 +70,7 @@ export default function ResultPage() {
         )}
 
         <button
-          onClick={() => window.location.href = "/"}
+          onClick={() => (window.location.href = "/")}
           className="mt-6 px-6 py-2 bg-red-500 hover:bg-red-600 rounded transition"
         >
           Play Again 🔄

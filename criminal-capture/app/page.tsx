@@ -1,4 +1,3 @@
-// Home Page
 "use client";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -8,7 +7,15 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-700 text-white relative">
+    <div
+      className="flex flex-col items-center justify-center h-screen text-white relative"
+      style={{
+        backgroundImage: "url('/police-car.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <motion.button
         className="absolute top-6 right-6 p-2 rounded-full bg-white text-black shadow-lg hover:bg-gray-200"
         onClick={() => router.push("/settings")}
@@ -20,7 +27,7 @@ export default function Home() {
       </motion.button>
 
       <motion.h1
-        className="text-4xl font-bold mb-6"
+        className="text-4xl font-bold mb-6 text-green"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}

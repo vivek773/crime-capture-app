@@ -107,7 +107,16 @@ export default function SelectionPage() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-purple-700 text-white relative">
+    <div
+      className="flex flex-col items-center justify-center h-screen 
+           text-white relative"
+      style={{
+        backgroundImage: "url('/dark-city.jpeg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {/* Back Button */}
       <button
         onClick={() => router.push("/")}
@@ -116,7 +125,7 @@ export default function SelectionPage() {
         <ArrowLeft size={20} /> Back
       </button>
 
-      <div className="bg-white shadow-lg rounded-xl p-6 max-w-2xl w-full">
+      <div className="bg-white shadow-lg rounded-xl p-6 max-w-2xl w-full bg-opacity-90">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Select City & Vehicle
         </h1>
