@@ -1,15 +1,22 @@
 // Cities Card
 "use client";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Pencil, Trash, Plus, X } from "lucide-react";
 
 import { City } from "@/types";
-import { getCities, addCity, updateCity, deleteCity } from "@/services/cityService";
+import {
+  getCities,
+  addCity,
+  updateCity,
+  deleteCity,
+} from "@/services/cityService";
 
 export default function CitiesCard() {
   const [cities, setCities] = useState<City[]>([]);
-  const [modalType, setModalType] = useState<"add" | "edit" | "delete" | null>(null);
+  const [modalType, setModalType] = useState<"add" | "edit" | "delete" | null>(
+    null
+  );
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
   const [formData, setFormData] = useState({ name: "", distance: "" });
 
@@ -22,10 +29,9 @@ export default function CitiesCard() {
         console.error("Error fetching cities:", error);
       }
     };
-  
+
     fetchCities();
   }, []);
-  
 
   const openModal = (type: "add" | "edit" | "delete", city?: City) => {
     setSelectedCity(city || null);
@@ -64,7 +70,11 @@ export default function CitiesCard() {
           name: formData?.name,
           distance: parseInt(formData?.distance),
         });
-        setCities(cities.map((city) => (city.id === selectedCity?.id ? updatedCity : city)));
+        setCities(
+          cities.map((city) =>
+            city.id === selectedCity?.id ? updatedCity : city
+          )
+        );
       }
       closeModal();
     } catch (error) {
@@ -94,45 +104,55 @@ export default function CitiesCard() {
           <Plus size={20} />
         </button>
       </div>
-      <table className="w-full">
-        <thead>
-          <tr className="text-gray-500 font-semibold text-lg">
-            <th className="py-2 text-left">City Name</th>
-            <th className="py-2 text-left">Distance</th>
-            <th className="py-2 text-right">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cities?.length > 0 ? (
-            cities?.map((city) => (
-              <tr key={city.id} className="border-b border-gray-200">
-                <td className="py-3 text-gray-700 text-lg">{city.name}</td>
-                <td className="py-3 text-gray-700 text-lg">{city.distance} km</td>
-                <td className="py-3 flex gap-4">
-                  <button
-                    className="text-blue-500 hover:text-blue-700"
-                    onClick={() => openModal("edit", city)}
-                  >
-                    <Pencil size={20} />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700"
-                    onClick={() => openModal("delete", city)}
-                  >
-                    <Trash size={20} />
-                  </button>
+      <div className="overflow-y-auto max-h-[300px]">
+        <table className="w-full">
+          <thead className="sticky top-0 bg-white shadow-sm">
+            <tr className="text-gray-500 font-semibold text-lg">
+              <th className="py-2 text-left">City Name</th>
+              <th className="py-2 text-left">Distance</th>
+              <th className="py-2 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cities?.length > 0 ? (
+              cities?.map((city) => (
+                <tr key={city.id} className="border-b border-gray-200">
+                  <td className="py-3 text-gray-700 text-lg">{city.name}</td>
+                  <td className="py-3 text-gray-700 text-lg">
+                    {city.distance} km
+                  </td>
+
+                  <td className="py-3 text-right">
+                    <div className="flex justify-end gap-4">
+                      <button
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => openModal("edit", city)}
+                      >
+                        <Pencil size={20} />
+                      </button>
+                      <button
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => openModal("delete", city)}
+                      >
+                        <Trash size={20} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="text-center text-gray-500 py-4 text-lg"
+                >
+                  No cities available.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={4} className="text-center text-gray-500 py-4 text-lg">
-                No cities available.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Reusable Modal */}
       <Modal
@@ -150,7 +170,10 @@ export default function CitiesCard() {
           },
         }}
       >
-        <button className="absolute top-3 right-3 text-gray-500 hover:text-gray-700" onClick={closeModal}>
+        <button
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+          onClick={closeModal}
+        >
           <X size={24} />
         </button>
 
@@ -160,7 +183,8 @@ export default function CitiesCard() {
               Confirm Delete
             </h2>
             <p className="text-gray-700 text-center mb-4">
-              Are you sure you want to delete <strong>{selectedCity?.name}</strong>?
+              Are you sure you want to delete{" "}
+              <strong>{selectedCity?.name}</strong>?
             </p>
             <button
               onClick={handleDelete}
@@ -202,7 +226,9 @@ export default function CitiesCard() {
             <button
               onClick={handleSubmit}
               className={`w-full ${
-                modalType === "add" ? "bg-blue-500 hover:bg-blue-600" : "bg-green-500 hover:bg-green-600"
+                modalType === "add"
+                  ? "bg-blue-500 hover:bg-blue-600"
+                  : "bg-green-500 hover:bg-green-600"
               } text-white p-2 rounded-lg mt-4 transition`}
             >
               {modalType === "add" ? "Submit" : "Update"}

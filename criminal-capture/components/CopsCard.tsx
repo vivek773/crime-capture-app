@@ -85,47 +85,50 @@ export default function CopsCard() {
           <Plus size={20} />
         </button>
       </div>
-
-      <table className="w-full">
-        <thead>
-          <tr className="text-gray-500 font-semibold text-lg">
-            <th className="py-2 text-left">Officer Name</th>
-            <th className="py-2 text-right">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cops.length > 0 ? (
-            cops.map((cop) => (
-              <tr key={cop.id} className="border-b border-gray-200">
-                <td className="py-3 text-gray-700 text-lg">{cop.name}</td>
-                <td className="py-3 flex gap-4">
-                  <button
-                    className="text-blue-500 hover:text-blue-700"
-                    onClick={() => openEditModal(cop)}
-                  >
-                    <Pencil size={20} />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700"
-                    onClick={() => openDeleteModal(cop)}
-                  >
-                    <Trash size={20} />
-                  </button>
+      <div className="overflow-y-auto max-h-[300px]">
+        <table className="w-full">
+          <thead className="sticky top-0 bg-white shadow-sm">
+            <tr className="text-gray-500 font-semibold text-lg">
+              <th className="py-2 text-left">Cop Name</th>
+              <th className="py-2 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cops.length > 0 ? (
+              cops.map((cop) => (
+                <tr key={cop.id} className="border-b border-gray-200">
+                  <td className="py-3 text-gray-700 text-lg">{cop.name}</td>
+                  <td className="py-3 text-right">
+                    <div className="flex justify-end gap-4">
+                      <button
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => openEditModal(cop)}
+                      >
+                        <Pencil size={20} />
+                      </button>
+                      <button
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => openDeleteModal(cop)}
+                      >
+                        <Trash size={20} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={2}
+                  className="text-center text-gray-500 py-4 text-lg"
+                >
+                  No cops available.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={2}
-                className="text-center text-gray-500 py-4 text-lg"
-              >
-                No cops available.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Add Cop Modal */}
       <ModalComponent
@@ -178,10 +181,16 @@ export default function CopsCard() {
           Are you sure you want to delete <strong>{copToDelete?.name}</strong>?
         </p>
         <div className="flex justify-center gap-4">
-          <button onClick={() => setDeleteModalIsOpen(false)} className="bg-gray-500 text-white px-4 py-2 rounded-lg">
+          <button
+            onClick={() => setDeleteModalIsOpen(false)}
+            className="bg-gray-500 text-white px-4 py-2 rounded-lg"
+          >
             Cancel
           </button>
-          <button onClick={handleDeleteCop} className="bg-red-500 text-white px-4 py-2 rounded-lg">
+          <button
+            onClick={handleDeleteCop}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg"
+          >
             Confirm Delete
           </button>
         </div>

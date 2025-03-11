@@ -112,54 +112,60 @@ export default function VehiclesCard() {
         </button>
       </div>
 
-      <table className="w-full">
-        <thead>
-          <tr className="text-gray-500 font-semibold text-lg">
-            <th className="py-2 text-left">Vehicle Name</th>
-            <th className="py-2 text-left">Range</th>
-            <th className="py-2 text-left">Count</th>
-            <th className="py-2 text-right">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {vehicles?.length > 0 ? (
-            vehicles?.map((vehicle) => (
-              <tr key={vehicle?.id} className="border-b border-gray-200">
-                <td className="py-3 text-gray-700 text-lg">{vehicle?.type}</td>
-                <td className="py-3 text-gray-700 text-lg">
-                  {vehicle?.range} km
-                </td>
-                <td className="py-3 text-gray-700 text-lg text-center">
-                  {vehicle?.count}
-                </td>
-                <td className="py-3 flex gap-4">
-                  <button
-                    className="text-blue-500 hover:text-blue-700"
-                    onClick={() => openEditModal(vehicle)}
-                  >
-                    <Pencil size={20} />
-                  </button>
-                  <button
-                    className="text-red-500 hover:text-red-700"
-                    onClick={() => openDeleteModal(vehicle)}
-                  >
-                    <Trash size={20} />
-                  </button>
+      <div className="overflow-y-auto max-h-[300px]">
+        <table className="w-full">
+          <thead className="sticky top-0 bg-white shadow-sm">
+            <tr className="text-gray-500 font-semibold text-lg">
+              <th className="py-2 text-left">Vehicle Name</th>
+              <th className="py-2 text-left">Range</th>
+              <th className="py-2 text-left">Count</th>
+              <th className="py-2 text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {vehicles?.length > 0 ? (
+              vehicles?.map((vehicle) => (
+                <tr key={vehicle?.id} className="border-b border-gray-200">
+                  <td className="py-3 text-gray-700 text-lg">
+                    {vehicle?.type}
+                  </td>
+                  <td className="py-3 text-gray-700 text-lg">
+                    {vehicle?.range} km
+                  </td>
+                  <td className="py-3 text-gray-700 text-lg text-center">
+                    {vehicle?.count}
+                  </td>
+                  <td className="py-3 text-right">
+                    <div className="flex justify-end gap-4">
+                      <button
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => openEditModal(vehicle)}
+                      >
+                        <Pencil size={20} />
+                      </button>
+                      <button
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => openDeleteModal(vehicle)}
+                      >
+                        <Trash size={20} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="text-center text-gray-500 py-4 text-lg"
+                >
+                  No vehicles available.
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={4}
-                className="text-center text-gray-500 py-4 text-lg"
-              >
-                No vehicles available.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Add Vehicle Modal */}
       <Modal
