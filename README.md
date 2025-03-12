@@ -12,8 +12,6 @@ Next.js 14 (App Router, Server Actions)
 
 TypeScript
 
-React-Hook-Form & Zod (Form validation)
-
 Prisma ORM (Database management)
 
 MySQL (Database)
@@ -21,8 +19,6 @@ MySQL (Database)
 Vercel (Frontend Deployment)
 
 Railway (MySQL Deployment)
-
-Jest & Playwright (Testing)
 
 📥 Installation and Setup
 
